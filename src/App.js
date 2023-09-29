@@ -393,7 +393,7 @@ function App() {
       ) : (
         <></>
       )} */}
-      <LoginPage></LoginPage>
+      <LoginPage/>
     </>
   );
 }

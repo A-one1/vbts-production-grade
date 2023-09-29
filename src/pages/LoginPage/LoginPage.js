@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Grades from "../Grades/Grades";
 import Students from "../Students/Students";
-import { auth, db } from "../../firebase";
 import { database } from "../../firebase";
 import { ref, onValue } from "firebase/database";
+import {ForgotPassword} from "../../components/ForgotPassword/ForgotPassword";
 
 const LoginPage = () => {
 
@@ -99,7 +99,6 @@ const LoginPage = () => {
 
   const handleShowPasscode = () => {
     const inputIdAsNumber = parseInt(inputId);
-
     const foundId = data
       ? data.find((item) => item.t1key110 === inputIdAsNumber)
       : null;
@@ -120,8 +119,6 @@ const LoginPage = () => {
   };
 
   const handleLoginButton = () => {
-    setShowForgotPassword(false);
-    setShowLogin(true);
     setShowPasscode(false);
     setInputId("");
     setInputDob("");
@@ -131,44 +128,44 @@ const LoginPage = () => {
         <>
          {showLogin && (
             <div className="d-flex justify-content-center">
-            <div
-                className="p-4 mt-4"
-                style={{
-                background: "#fff",
-                border: "1px solid #fff",
-                borderRadius: "8px",
-                boxShadow: "2px 2px 10px -1px #b9b3b3",
-                }}
-            >
-                <p className="text-center">Enter your ID and Passcode</p>
-                <input
-                className="text-center"
-                type="text"
-                value={inputId}
-                onChange={handleInputId}
-                placeholder="Your ID"
-                />
-                <input
-                className="text-center"
-                type="text"
-                value={inputPasscode}
-                onChange={handleInputPasscode}
-                placeholder="Your Passcode"
-                />
-                <div className="d-flex justify-content-center mt-4">
-                <button
-                    className="border-0 text-center"
-                    onClick={handleButtonClick}
-                >
-                    Show grades
-                </button>
-                </div>
-                <div className="d-flex justify-content-center">
-                <button className="border-0 mt-4" onClick={handleForgotPassword}>
-                    Forgot Passcode?
-                </button>
-                </div>
-            </div>
+              <div
+                  className="p-4 mt-4"
+                  style={{
+                  background: "#fff",
+                  border: "1px solid #fff",
+                  borderRadius: "8px",
+                  boxShadow: "2px 2px 10px -1px #b9b3b3",
+                  }}
+              >
+                  <p className="text-center">Enter your ID and Passcode</p>
+                  <input
+                  className="text-center"
+                  type="text"
+                  value={inputId}
+                  onChange={handleInputId}
+                  placeholder="Your ID"
+                  />
+                  <input
+                  className="text-center"
+                  type="text"
+                  value={inputPasscode}
+                  onChange={handleInputPasscode}
+                  placeholder="Your Passcode"
+                  />
+                  <div className="d-flex justify-content-center mt-4">
+                  <button
+                      className="border-0 text-center"
+                      onClick={handleButtonClick}
+                  >
+                      Show grades
+                  </button>
+                  </div>
+                  <div className="d-flex justify-content-center">
+                  <button className="border-0 mt-4" onClick={handleForgotPassword}>
+                      Forgot Passcode?
+                  </button>
+                  </div>
+              </div>
             </div>
         )}
         {showForgotPassword && (
@@ -206,6 +203,7 @@ const LoginPage = () => {
                   </button>
                   </div>
               </div>
+              {/* <ForgotPassword data={data} setMatchingId={setMatchingId} setMatchingDob={setMatchingDob} setShowPasscode={setShowPasscode}/> */}
             </div>
         )}
         {showPasscode && matchingId !== undefined && matchingDob !== undefined ? (
