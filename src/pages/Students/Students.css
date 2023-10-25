@@ -70,21 +70,17 @@
     margin-right: 20px;
     margin-bottom: 0;
     width: 80px;
-    display: inline-block;
+    
     font-weight: bold;
-  
+    display: flex,
   }
-  .main{
+  Label{
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
-    padding-bottom:8px;
-    border-radius: 1%;
-    
-
   }
-  .main:hover{
+ 
+  Control:hover{
     transform: scale(1.02);
     background-color: rgb(222, 222, 222);
 

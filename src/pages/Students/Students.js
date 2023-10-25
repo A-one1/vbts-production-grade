@@ -44,23 +44,20 @@ const Students = ({ matchingId, data, handleLogOut }) => {
     if (!isEditing) {
       setIsEdit(!isEditing);
     } else if (isEditing) {
-       set(ref(database, `vbts/updatedData/`), 
-       [{
-        
-       },{
-      t1key110: t1key110,
-      t1item120: t1item120,
-      t1item130: t1item130,
-      t1item140: t1item140,
-      t1item150: t1item150,
-    }
-  ]
-    )
-      .catch((e) => {
-        console.log("SAVING ERROR", e);
-      })
-      .then(() => console.log("DATA POSTED SUCCESSFULLY"));
-     setIsEdit(!isEditing);
+      set(ref(database, `vbts/updatedData/`), [
+        {
+          t1key110: t1key110,
+          t1item120: t1item120,
+          t1item130: t1item130,
+          t1item140: t1item140,
+          t1item150: t1item150,
+        },
+      ])
+        .catch((e) => {
+          console.log("SAVING ERROR", e);
+        })
+        .then(() => console.log("DATA POSTED SUCCESSFULLY"));
+      setIsEdit(!isEditing);
     }
   };
 
@@ -69,12 +66,6 @@ const Students = ({ matchingId, data, handleLogOut }) => {
   } catch (error) {
     console.log(error);
   }
-  const handleEdit = () => {
-    setIsEdit(!isEditing);
-    if (isEditing) {
-      setSaveData(true);
-    }
-  };
 
   return (
     <>
@@ -102,14 +93,7 @@ const Students = ({ matchingId, data, handleLogOut }) => {
               className="mb-3"
               controlId="formPlaintextEmail"
             >
-              <Form.Label
-                className="form-label"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
+              <Form.Label className="form-label">
                 <FaUserTie />
                 {data[0].t1key110}
               </Form.Label>
@@ -123,77 +107,102 @@ const Students = ({ matchingId, data, handleLogOut }) => {
                 }}
               />
             </Form.Group>
-            <Form.Group>
-              <FaUserTie />
-              <Form.Label className="form-label">{data[0].t1key110}</Form.Label>
-
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formPlaintextEmail"
+            >
+              <Form.Label>
+                <FaPencilAlt />
+                {data[0].t1item120}
+              </Form.Label>
               <Form.Control
-                className="form-control"
+                className={isEditing ? "editable" : "form-control"}
                 type="text"
-                value={t1key110}
-                readOnly
+                value={t1item120}
+                readOnly={!isEditing}
                 onChange={(event) => {
-                  sett1key110(event.target.value);
+                  setName(event.target.value);
                 }}
               />
             </Form.Group>
-            asdsa
-            <br />
-            <FaPencilAlt />
-            <Form.Label className="form-label">{data[0].t1item120}</Form.Label>
-            <Form.Control
-              className={isEditing ? "editable" : "form-control"}
-              type="text"
-              value={t1item120}
-              onChange={(event) => {
-                setName(event.target.value);
-              }}
-              readOnly={!isEditing}
-            />
-            <FaUniversity />
-            <Form.Label className="form-label">{data[0].t1item130}</Form.Label>
-            <Form.Control
-              className={isEditing ? "editable" : "form-control"}
-              type="text"
-              value={t1item130}
-              onChange={(event) => {
-                setProgram(event.target.value);
-              }}
-              readOnly={!isEditing}
-            />
-            <FaPhone />
-            <Form.Label className="form-label">{data[0].t1item140}</Form.Label>
-            <Form.Control
-              className={isEditing ? "editable" : "form-control"}
-              type="text"
-              value={t1item140}
-              onChange={(event) => {
-                setPhone(event.target.value);
-              }}
-              readOnly={!isEditing}
-            />
-            <FaEnvelopeOpen />
-            <Form.Label className="form-label">{data[0].t1item150}</Form.Label>
-            <Form.Control
-              className={isEditing ? "editable" : "form-control"}
-              type="text"
-              value={t1item150}
-              onChange={(event) => {
-                setEmail(event.target.value);
-              }}
-              readOnly={!isEditing}
-            />
-            <FaRegCalendarTimes />
-            <Form.Label className="form-label">{data[0].t1item160}</Form.Label>
-            <Form.Control
-              className="form-control"
-              type="text"
-              readOnly
-              value={time}
-              onChange={(event) => {
-                setRegistrationDate(event.target.value);
-              }}
-            />
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formPlaintextEmail"
+            >
+              <Form.Label >
+                <FaUniversity />
+                {data[0].t1item130}
+              </Form.Label>
+              <Form.Control
+                className={isEditing ? "editable" : "form-control"}
+                type="text"
+                value={t1item130}
+                readOnly={!isEditing}
+                onChange={(event) => {
+                  setProgram(event.target.value);
+                }}
+              />
+            </Form.Group>
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formPlaintextEmail"
+            >
+              <Form.Label >
+                <FaPhone />
+                {data[0].t1item140}
+              </Form.Label>
+              <Form.Control
+                className={isEditing ? "editable" : "form-control"}
+                type="text"
+                value={t1item140}
+                readOnly={!isEditing}
+                onChange={(event) => {
+                  setPhone(event.target.value);
+                }}
+              />
+            </Form.Group>
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formPlaintextEmail"
+            >
+              <Form.Label >
+                <FaEnvelopeOpen />
+                {data[0].t1item150}
+              </Form.Label>
+              <Form.Control
+                className={isEditing ? "editable" : "form-control"}
+                type="text"
+                value={t1item150}
+                readOnly={!isEditing}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
+              />
+            </Form.Group>
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formPlaintextEmail"
+            >
+              <Form.Label className="form-label">
+                <FaRegCalendarTimes />
+                {data[0].t1item160}
+              </Form.Label>
+              <Form.Control
+                className="form-control"
+                type="text"
+                value={time}
+                readOnly
+                onChange={(event) => {
+                  setRegistrationDate(event.target.value);
+                }}
+              />
+            </Form.Group>
+
             <div className="editButton">
               <button
                 className={isEditing ? "btn btn-success" : "btn btn-info"}
