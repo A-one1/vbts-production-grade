@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Form, InputGroup, Row } from "react-bootstrap";
+import { Form, Row } from "react-bootstrap";
 import "./Students.css";
 import {
   FaUserTie,
@@ -9,8 +9,10 @@ import {
   FaEnvelopeOpen,
   FaRegCalendarTimes,
 } from "react-icons/fa";
-import { database, db } from "../../firebase";
+import { database } from "../../firebase";
 import { ref, set } from "firebase/database";
+import { DateTime } from "luxon";
+import { toast } from "react-toastify";
 
 const Students = ({ matchingId, data, handleLogOut }) => {
   const [t1key110, sett1key110] = useState(matchingId.t1key110);
@@ -19,53 +21,50 @@ const Students = ({ matchingId, data, handleLogOut }) => {
   const [t1item140, setPhone] = useState(matchingId.t1item140);
   const [t1item150, setEmail] = useState(matchingId.t1item150);
   const [t1item160, setRegistrationDate] = useState(matchingId.t1item160);
-  const [saveData, setSaveData] = useState(false);
   const [isEditing, setIsEdit] = useState(false);
-
-  if (saveData) {
-    set(ref(database, `vbts/updated Data/${t1key110}`), {
-      t1key110: t1key110,
-      t1item120: t1item120,
-      t1item130: t1item130,
-      t1item140: t1item140,
-      t1item150: t1item150,
-    })
-      .catch((e) => {
-        console.log("SAVING ERROR", e);
-      })
-      .then(() => console.log("DATA POSTED SUCCESSFULLY"));
-    console.log("DATA SAVED");
-  }
-
-  console.log("🚀 ~ file: Students.js:7 ~ Students ~ t1key110:", t1key110);
+  var time = t1item160.slice(0, 10) + " " + t1item160.slice(11, 16);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!isEditing) {
       setIsEdit(!isEditing);
     } else if (isEditing) {
-      set(ref(database, `vbts/updatedData/`), [
-        {
-          t1key110: t1key110,
-          t1item120: t1item120,
-          t1item130: t1item130,
-          t1item140: t1item140,
-          t1item150: t1item150,
-        },
-      ])
+      set(ref(database, `vbts/multiUsers/${t1key110}`), {
+        t1_key110: t1key110,
+        t1item120: t1item120,
+        t1item130: t1item130,
+        t1item140: t1item140,
+        t1item150: t1item150,
+        t1item160: DateTime.now().toFormat("yyyy-MM-dd hh:mm a"),
+      })
         .catch((e) => {
           console.log("SAVING ERROR", e);
+          toast.error("Error: ", e, {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         })
-        .then(() => console.log("DATA POSTED SUCCESSFULLY"));
+        .then(() =>
+          toast.success("Successfully Saved!", {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          })
+        );
       setIsEdit(!isEditing);
     }
   };
-
-  try {
-    var time = t1item160.slice(0, 10) + " :" + t1item160.slice(11, 16);
-  } catch (error) {
-    console.log(error);
-  }
 
   return (
     <>
@@ -131,7 +130,7 @@ const Students = ({ matchingId, data, handleLogOut }) => {
               className="mb-3"
               controlId="formPlaintextEmail"
             >
-              <Form.Label >
+              <Form.Label>
                 <FaUniversity />
                 {data[0].t1item130}
               </Form.Label>
@@ -150,7 +149,7 @@ const Students = ({ matchingId, data, handleLogOut }) => {
               className="mb-3"
               controlId="formPlaintextEmail"
             >
-              <Form.Label >
+              <Form.Label>
                 <FaPhone />
                 {data[0].t1item140}
               </Form.Label>
@@ -169,7 +168,7 @@ const Students = ({ matchingId, data, handleLogOut }) => {
               className="mb-3"
               controlId="formPlaintextEmail"
             >
-              <Form.Label >
+              <Form.Label>
                 <FaEnvelopeOpen />
                 {data[0].t1item150}
               </Form.Label>
@@ -194,7 +193,7 @@ const Students = ({ matchingId, data, handleLogOut }) => {
               </Form.Label>
               <Form.Control
                 className="form-control"
-                type="text"
+                type="email"
                 value={time}
                 readOnly
                 onChange={(event) => {
